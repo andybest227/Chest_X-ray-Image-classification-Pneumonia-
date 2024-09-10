@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 from login import render as render_login
 from register import render as render_register
+
 from dashboard import main as render_dashboard
 
 

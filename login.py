@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 
+base_dir = os.path.dirname(__file__)
+
 st.set_page_config(page_title="Medical Image Classification System", layout="centered")
 
 
@@ -9,7 +11,7 @@ def render():
     placeholder = st.empty()
     with placeholder.form("Login"):
         st.markdown("### Enter your login Credentials")
-        email = st.text_input("Email Addrress")
+        email = st.text_input("Enter Username")
         password = st.text_input("Enter Password", type="password")
         submit = st.form_submit_button("Login")
         if submit:
@@ -46,17 +48,17 @@ def login_user(username, password):
         return
     else:
         # The method listdir() returns a list containing the names of the entries in the directory given by path
-        list_of_files = os.listdir()
+        # check if this username already exist
+        folder = os.path.join(base_dir, "users_files")
+        list_of_files = os.listdir(folder)
 
     # Defining verification's condition
-    if username in list_of_files:
-        file1 = open(username, "r")
+    if username + ".txt" in list_of_files:
+        with open(folder + "/" + username + ".txt", "r") as file:
+            file_contains_password = any(password in line for line in file)
 
-        # read file
-        verify = file1.read().splitlines()
-        if password in verify:
+        if file_contains_password:
             login_success()
-
         else:
             password_not_recognised()
     else:

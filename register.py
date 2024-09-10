@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 
+base_dir = os.path.dirname(__file__)
+
 
 def render():
     placeholder = st.empty()
@@ -62,20 +64,22 @@ def register_user(full_name, username, email, password, comfirm_password):
         return
 
     # check if this username already exist
-    list_of_files = os.listdir()
+    folder = os.path.join(base_dir, "users_files")
+    list_of_files = os.listdir(folder)
 
     # Defining verification's condition
-    if username in list_of_files:
+    if username + ".txt" in list_of_files:
         user_exist(username)
         return
 
     # Open file in write mode
-    file = open("/users_files/username.txt", "w")
+    usernames = folder + "/" + username + ".txt"
+    file = open(usernames, "w")
 
     # Write username and password information
-    file.write(full_name + "\n")
-    file.write(username + "\n")
-    file.write(email + "\n")
+    # file.write(full_name + "\n")
+    # file.write(username + "\n")
+    # file.write(email + "\n")
     file.write(password)
     file.close()
 
